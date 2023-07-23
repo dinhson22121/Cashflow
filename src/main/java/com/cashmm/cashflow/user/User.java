@@ -1,12 +1,15 @@
-package com.cashmm.cashflow.User;
+package com.cashmm.cashflow.user;
 
-import com.cashmm.cashflow.Address.Address;
+import com.cashmm.cashflow.address.Address;
+import com.cashmm.cashflow.auth.AuthenticationResponse;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,9 +31,9 @@ public class User implements UserDetails {
     private Collection<Address> addresses;
     private String phoneNumber;
     private String password;
-    private String token;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private Timestamp createAt;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

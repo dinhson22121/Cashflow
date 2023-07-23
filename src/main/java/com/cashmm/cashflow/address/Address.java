@@ -1,4 +1,4 @@
-package com.cashmm.cashflow.Address;
+package com.cashmm.cashflow.address;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 @Builder
 @Data
 @NoArgsConstructor

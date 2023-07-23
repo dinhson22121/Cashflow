@@ -1,4 +1,4 @@
-package com.cashmm.cashflow.User;
+package com.cashmm.cashflow.user;
 
 public enum Role {
     USER,
