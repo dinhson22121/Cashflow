@@ -1,0 +1,63 @@
+-- Tạo bảng User
+CREATE TABLE User (
+    ID SERIAL PRIMARY KEY,
+    Username VARCHAR(255) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Investments
+CREATE TABLE Investments (
+    ID SERIAL PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    InvestmentAmount NUMERIC NOT NULL,
+    OwedAmount NUMERIC,
+    InvestmentDate DATE NOT NULL,
+    InvestmentType VARCHAR(50) NOT NULL,
+    UserID INTEGER REFERENCES User(ID),
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Transactions
+CREATE TABLE Transactions (
+    ID SERIAL PRIMARY KEY,
+    InvestmentID INTEGER REFERENCES Investments(ID),
+    TransactionType VARCHAR(50) NOT NULL,
+    TransactionDate DATE NOT NULL,
+    Amount NUMERIC NOT NULL,
+    Note TEXT,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Income
+CREATE TABLE Income (
+    ID SERIAL PRIMARY KEY,
+    UserID INTEGER REFERENCES User(ID),
+    IncomeType VARCHAR(50) NOT NULL,
+    Amount NUMERIC NOT NULL,
+    IncomeDate DATE NOT NULL,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Salary
+CREATE TABLE Salary (
+    ID SERIAL PRIMARY KEY,
+    UserID INTEGER REFERENCES User(ID),
+    Amount NUMERIC NOT NULL,
+    SalaryDate DATE NOT NULL,
+    IncomeType VARCHAR(50) NOT NULL,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Loan
+CREATE TABLE Loan (
+    ID SERIAL PRIMARY KEY,
+    UserID INTEGER REFERENCES User(ID),
+    LoanType VARCHAR(50) NOT NULL,
+    Amount NUMERIC NOT NULL,
+    LoanDate DATE NOT NULL,
+    InterestRate NUMERIC NOT NULL,
+    DueDate DATE,
+    CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
