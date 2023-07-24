@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -18,9 +20,12 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer ApartmentNumber;
     private String city;
     private String state;
     private String postalCode;
-    private String country;
-
+    private String street;
+    private Integer validFlag;
+    private Integer priorities;
+    private Timestamp createAt;
 }
