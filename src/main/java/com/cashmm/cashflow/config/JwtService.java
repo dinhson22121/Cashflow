@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +21,10 @@ public class JwtService {
     private static final Integer TIME_EXPIRE = 1000*60*24;
 
     public String extractUsername(String token) {
-        return null;
+        return extractClaim(token,Claims::getSubject);
     }
 
-    public <T> T extractAllClaims(String token, Function<Claims,T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -44,7 +43,7 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-        return extractAllClaims(token, Claims::getExpiration);
+        return extractClaim(token, Claims::getExpiration);
     }
 
     public String generateToken(Map <String, Object> extractClaims, UserDetails userDetails){
