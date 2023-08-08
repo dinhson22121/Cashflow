@@ -1,6 +1,13 @@
 server:
   port: 8090
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 046732c93a443fb4a5e7
+            clientSecret: 1e684a302646881f6c8828383d9c68aafb60a799
   datasource:
     url: jdbc:postgresql://localhost:5432/Cashflow
     username: 'root'
@@ -8,9 +15,9 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
+      format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect

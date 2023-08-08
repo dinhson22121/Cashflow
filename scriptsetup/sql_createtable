@@ -101,3 +101,12 @@ CREATE TABLE AllocationSetup (
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE History (
+    ID SERIAL PRIMARY KEY,
+    Userpf_id INTEGER,
+    Activity_type VARCHAR(255),
+    Description TEXT,
+    Created_at TIMESTAMP
+);

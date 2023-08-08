@@ -33,6 +33,8 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private String googleId;
+    private String picture;
     private Timestamp createAt;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
