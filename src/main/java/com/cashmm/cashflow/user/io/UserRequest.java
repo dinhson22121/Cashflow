@@ -1,22 +1,26 @@
-package com.cashmm.cashflow.auth;
+package com.cashmm.cashflow.user.io;
 
-import com.cashmm.cashflow.address.Address;
+import com.cashmm.cashflow.address.io.AddressResponse;
+import com.cashmm.cashflow.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
+import java.util.Set;
 
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
+public class UserRequest {
     private String firstname;
     private String lastname;
     private String email;
     private String password;
     private String phoneNumber;
-    private Collection<Address> addresses;
+    private Role role;
+    private String googleId;
+    private String picture;
+    private Set<AddressResponse> addresses;
 }

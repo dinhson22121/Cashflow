@@ -1,4 +1,4 @@
-package com.cashmm.cashflow.address;
+package com.cashmm.cashflow.address.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

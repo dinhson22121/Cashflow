@@ -1,5 +1,6 @@
-package com.cashmm.cashflow.address;
+package com.cashmm.cashflow.address.repository;
 
+import com.cashmm.cashflow.address.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

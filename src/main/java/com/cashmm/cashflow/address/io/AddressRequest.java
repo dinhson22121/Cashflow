@@ -1,4 +1,4 @@
-package com.cashmm.cashflow.address;
+package com.cashmm.cashflow.address.io;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressResponse {
+public class AddressRequest {
     private String city;
     private String state;
     private String postalCode;

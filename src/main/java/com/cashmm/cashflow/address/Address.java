@@ -1,15 +1,15 @@
 package com.cashmm.cashflow.address;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.cashmm.cashflow.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 @Builder
 @Data
@@ -27,5 +27,7 @@ public class Address {
     private String street;
     private Integer validFlag;
     private Integer priorities;
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "addresses")
+    private List<User> users;
     private Timestamp createAt;
 }
