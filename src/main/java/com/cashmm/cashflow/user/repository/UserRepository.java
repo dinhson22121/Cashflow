@@ -15,10 +15,5 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface UserRepository extends JpaRepository<User,Integer> {
     Optional<User> findByEmail(String   email);
-    @Query("SELECT u FROM User u WHERE u.email = :email")
-    User loadUserInfo(String   email);
 
-    @Modifying
-    @Query("Update User u SET u.password = :newPassword WHERE u.email = :email")
-    void changePassword(@Param("password") String newPassword,@Param("email") String email);
 }

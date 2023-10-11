@@ -2,15 +2,18 @@ package com.cashmm.cashflow.user.service.Impl;
 
 import com.cashmm.cashflow.address.io.AddressResponse;
 import com.cashmm.cashflow.user.User;
+import com.cashmm.cashflow.user.io.PasswordRequest;
 import com.cashmm.cashflow.user.io.UserRequest;
 import com.cashmm.cashflow.user.io.UserResponse;
 import com.cashmm.cashflow.user.repository.UserRepository;
 import com.cashmm.cashflow.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,8 +26,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserResponse loadUserInfo(UserRequest userRequest) {
-        User user = userRepository.loadUserInfo(userRequest.getEmail());
-        if (user != null) {
+        Optional<User> userOptional = userRepository.findByEmail(userRequest.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
             var addresses = user.getAddresses();
             Set<AddressResponse> addressResponses = addresses.stream()
                     .map(address -> AddressResponse.builder()
@@ -67,7 +71,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void changePassword(UserRequest request) {
-        userRepository.changePassword(passwordEncoder.encode(request.getPassword()),request.getEmail());
+    public void changePassword(PasswordRequest request, Principal connectedUser) {
+        var user= (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())){
+            throw new IllegalStateException("Wrong Password");
+        }
+        if (!request.getNewPassword().equals(request.getConfirmPassword())){
+            throw new IllegalStateException("Password are not the same");
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 }
