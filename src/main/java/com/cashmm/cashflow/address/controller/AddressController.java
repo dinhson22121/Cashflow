@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AddressController {
 
     @GetMapping
-    public ResponseEntity<String> hello(){
+    public ResponseEntity<?> getAdrress(){
         return ResponseEntity.ok("Hello Address");
     }
 }

@@ -1,4 +1,4 @@
-package com.cashmm.cashflow.user.service.Impl;
+package com.cashmm.cashflow.user.service.impl;
 
 import com.cashmm.cashflow.address.io.AddressResponse;
 import com.cashmm.cashflow.user.User;
