@@ -17,12 +17,12 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @PostMapping("/info")
-    public ResponseEntity<UserResponse> loadUserInfo(@RequestBody UserRequest userRequest ){
+    public ResponseEntity<?> loadUserInfo(@RequestBody UserRequest userRequest ){
         return ResponseEntity.ok(userService.loadUserInfo(userRequest));
     }
 
     @PostMapping("/update")
-    public ResponseEntity<UserResponse> update(@RequestBody UserRequest userRequest ){
+    public ResponseEntity<?> update(@RequestBody UserRequest userRequest ){
         return ResponseEntity.ok(userService.updateInfoUser(userRequest));
     }
 

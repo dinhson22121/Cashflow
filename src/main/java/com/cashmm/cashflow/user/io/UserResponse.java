@@ -1,5 +1,6 @@
 package com.cashmm.cashflow.user.io;
 
+import com.cashmm.cashflow.address.Address;
 import com.cashmm.cashflow.address.io.AddressResponse;
 import com.cashmm.cashflow.user.Role;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,6 @@ public class UserResponse {
     private Role role;
     private String googleId;
     private String picture;
-    private Set<AddressResponse> addresses;
+    private Address addresses;
 
 }

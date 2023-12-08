@@ -1,6 +1,7 @@
 package com.cashmm.cashflow.user;
 
 import com.cashmm.cashflow.address.Address;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,13 +30,10 @@ public class User implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "user_address",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id"))
-    private Collection<Address> addresses = new HashSet<>();;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private Address address;
     private String phoneNumber;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;

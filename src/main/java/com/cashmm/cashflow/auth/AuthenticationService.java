@@ -6,6 +6,7 @@ import com.cashmm.cashflow.user.Role;
 import com.cashmm.cashflow.user.User;
 import com.cashmm.cashflow.user.repository.UserRepository;
 import com.cashmm.cashflow.validate.ValidateEmailService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,36 +24,39 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ValidateEmailService validateEmailService;
+
     private final String SUCCESS = "Success";
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         if (!validateEmailService.isValidEmail(request)){
             return AuthenticationResponse.builder()
                     .message("Invalid email"+request.getEmail())
                     .build();
         }
-        var addressReq = request.getAddresses().stream().map(addressDTO -> {
-                    Address address = new Address();
-                    address.setApartmentNumber(addressDTO.getApartmentNumber());
-                    address.setCity(addressDTO.getCity());
-                    address.setState(addressDTO.getState());
-                    address.setPostalCode(addressDTO.getPostalCode());
-                    address.setStreet(addressDTO.getStreet());
-                    address.setValidFlag(addressDTO.getValidFlag());
-                    address.setPriorities(addressDTO.getPriorities());
-                    address.setCreateAt(new Timestamp(System.currentTimeMillis()));
-                    return address;
-                })
-                .collect(Collectors.toSet());
+
+        Address address = new Address();
+        address.setApartmentNumber(request.getAddress().getApartmentNumber());
+        address.setCity(request.getAddress().getCity());
+        address.setState(request.getAddress().getState());
+        address.setPostalCode(request.getAddress().getPostalCode());
+        address.setStreet(request.getAddress().getStreet());
+        address.setValidFlag(request.getAddress().getValidFlag());
+        address.setPriorities(request.getAddress().getPriorities());
+        address.setCreateAt(new Timestamp(System.currentTimeMillis()));
+
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
-                .addresses(addressReq)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .phoneNumber(request.getPhoneNumber())
                 .createAt(new Timestamp(System.currentTimeMillis()))
                 .build();
+
+        user.setAddress(address);
+        address.setUser(user);
+
         userRepository.saveAndFlush(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse
@@ -60,7 +64,7 @@ public class AuthenticationService {
                 .message(SUCCESS)
                 .token(jwtToken).build();
     }
-
+    @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         if (!validateEmailService.isValidEmail(request)){
             return AuthenticationResponse.builder()

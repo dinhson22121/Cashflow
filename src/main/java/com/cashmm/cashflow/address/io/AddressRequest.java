@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressRequest {
+    private Long userId;
+    private Integer apartmentNumber;
     private String city;
     private String state;
     private String postalCode;

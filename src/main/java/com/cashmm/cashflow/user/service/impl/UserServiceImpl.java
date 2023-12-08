@@ -1,5 +1,6 @@
 package com.cashmm.cashflow.user.service.impl;
 
+import com.cashmm.cashflow.address.Address;
 import com.cashmm.cashflow.address.io.AddressResponse;
 import com.cashmm.cashflow.user.User;
 import com.cashmm.cashflow.user.io.PasswordRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,30 +27,27 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     @Transactional
     @Override
-    public UserResponse loadUserInfo(UserRequest userRequest) {
+    public User loadUserInfo(UserRequest userRequest) {
         Optional<User> userOptional = userRepository.findByEmail(userRequest.getEmail());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            var addresses = user.getAddresses();
-            Set<AddressResponse> addressResponses = addresses.stream()
-                    .map(address -> AddressResponse.builder()
-                            .apartmentNumber(address.getApartmentNumber())
-                            .state(address.getState())
-                            .city(address.getCity())
-                            .postalCode(address.getPostalCode())
-                            .priorities(address.getPriorities())
-                            .street(address.getStreet())
-                            .validFlag(address.getValidFlag())
-                            .createAt(address.getCreateAt())
-                            .build()
-                    ).collect(Collectors.toSet());
-
-            return UserResponse.builder()
+            Address address = new Address();
+            address.setId(user.getAddress().getId());
+            address.setApartmentNumber(user.getAddress().getApartmentNumber());
+            address.setCity(user.getAddress().getCity());
+            address.setState(user.getAddress().getState());
+            address.setPostalCode(user.getAddress().getPostalCode());
+            address.setStreet(user.getAddress().getStreet());
+            address.setValidFlag(user.getAddress().getValidFlag());
+            address.setPriorities(user.getAddress().getPriorities());
+            address.setCreateAt(new Timestamp(System.currentTimeMillis()));
+            return User.builder()
+                    .id(user.getId())
                     .email(user.getEmail())
                     .phoneNumber(user.getPhoneNumber())
                     .firstname(user.getFirstname())
                     .lastname(user.getLastname())
-                    .addresses(addressResponses)
+                    .address(address)
                     .role(user.getRole())
                     .googleId(user.getGoogleId())
                     .picture(user.getPicture())
