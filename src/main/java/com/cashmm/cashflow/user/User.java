@@ -42,6 +42,11 @@ public class User implements UserDetails {
     private String googleId;
     private String picture;
     private Timestamp createAt;
+
+    public User(Long id) {
+        this.id = id;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

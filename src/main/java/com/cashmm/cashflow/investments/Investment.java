@@ -1,9 +1,7 @@
 package com.cashmm.cashflow.investments;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.cashmm.cashflow.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,12 +19,13 @@ import java.sql.Timestamp;
 public class Investment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String name;
     private BigDecimal investmentAmount;
     private Integer investmentDate;
     private String investmentType;
-    private Long UserID;
+    private String currency;
+    private Long userId;
     private Integer validFlag;
     private Timestamp createAt;
 
