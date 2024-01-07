@@ -1,6 +1,7 @@
 package com.cashmm.cashflow.user;
 
 import com.cashmm.cashflow.address.Address;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Integer historyTranno;
     private String firstname;
     private String lastname;
     private String email;

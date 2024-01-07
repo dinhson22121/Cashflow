@@ -24,7 +24,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ValidateEmailService validateEmailService;
-
+    private final Integer firstTranno = 1;
     private final String SUCCESS = "Success";
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
@@ -42,9 +42,11 @@ public class AuthenticationService {
         address.setStreet(request.getAddress().getStreet());
         address.setValidFlag(request.getAddress().getValidFlag());
         address.setPriorities(request.getAddress().getPriorities());
+        address.setHistoryTranno(firstTranno);
         address.setCreateAt(new Timestamp(System.currentTimeMillis()));
 
         var user = User.builder()
+                .historyTranno(firstTranno)
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())

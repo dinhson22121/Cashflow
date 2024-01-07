@@ -8,6 +8,7 @@ CREATE TABLE App_user (
     LastName VARCHAR(100) NOT NULL,
     PhoneNumber VARCHAR(20),
     Role VARCHAR(50),
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -21,6 +22,7 @@ CREATE TABLE Address (
     ZipCode VARCHAR(20) NOT NULL,
     ApartmentNumber INTEGER,
     Priorities INTEGER,
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -37,10 +39,11 @@ CREATE TABLE Investments (
     ID SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     InvestmentAmount NUMERIC NOT NULL,
-    OwedAmount NUMERIC,
     InvestmentDate TIMESTAMP NOT NULL,
     InvestmentType VARCHAR(50) NOT NULL,
     UserID INTEGER REFERENCES App_user(ID),
+    Currency VARCHAR(5) NOT NULL,
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -53,6 +56,7 @@ CREATE TABLE Transactions (
     TransactionDate TIMESTAMP NOT NULL,
     Amount NUMERIC NOT NULL,
     Note TEXT,
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -64,6 +68,7 @@ CREATE TABLE Income (
     IncomeType VARCHAR(50) NOT NULL,
     Amount NUMERIC NOT NULL,
     IncomeDate TIMESTAMP NOT NULL,
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -75,6 +80,7 @@ CREATE TABLE Salary (
     Amount NUMERIC NOT NULL,
     SalaryDate TIMESTAMP NOT NULL,
     IncomeType VARCHAR(50) NOT NULL,
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -88,6 +94,7 @@ CREATE TABLE Loan (
     LoanDate TIMESTAMP NOT NULL,
     InterestRate NUMERIC NOT NULL,
     DueDate TIMESTAMP,
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -98,6 +105,7 @@ CREATE TABLE AllocationSetup (
     InvestmentType VARCHAR(50) NOT NULL,
     AllocationPercentage NUMERIC NOT NULL,
     UserID INTEGER REFERENCES App_user(ID),
+    History_tranno INTEGER,
     ValidFlag INTEGER,
     CreatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -108,5 +116,8 @@ CREATE TABLE History (
     App_user_id INTEGER,
     Activity_type VARCHAR(255),
     Description TEXT,
-    Created_at TIMESTAMP
+    History_tranno INTEGER,  -- Thêm cột để tham chiếu đến lịch sử
+    Created_at TIMESTAMP,
+
 );
+

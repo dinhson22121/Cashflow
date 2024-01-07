@@ -1,6 +1,8 @@
 package com.cashmm.cashflow.investments;
 
-import com.cashmm.cashflow.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +18,14 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Investment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Integer historyTranno;
     private String name;
+    @JsonDeserialize(using = NumberDeserializers.BigDecimalDeserializer.class)
     private BigDecimal investmentAmount;
     private Integer investmentDate;
     private String investmentType;

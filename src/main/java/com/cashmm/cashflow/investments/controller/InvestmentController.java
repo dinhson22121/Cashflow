@@ -4,13 +4,19 @@ package com.cashmm.cashflow.investments.controller;
 import com.cashmm.cashflow.investments.Investment;
 import com.cashmm.cashflow.investments.io.InvestmentRequest;
 import com.cashmm.cashflow.investments.services.InvestmentService;
+
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.RequiredArgsConstructor;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,4 +56,16 @@ public class InvestmentController {
         investmentService.deleteInvestment(investmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PatchMapping("/investments/{investmentId}")
+    public ResponseEntity<?> patchInvestment(@PathVariable Long investmentId, @RequestBody Map<String, Object> request){
+        try {
+            Investment updatedInvestment = investmentService.patchInvestment(investmentId, request);
+            return ResponseEntity.ok(updatedInvestment);
+        } catch (ChangeSetPersister.NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating investment.");
+        }
+    }
+
 }
